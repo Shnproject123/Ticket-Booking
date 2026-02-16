@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sign In | BookMyScreen</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
+
+<div class="bg-gray-800 p-10 rounded-3xl shadow-2xl w-full max-w-md">
+
+  <!-- Logo -->
+  <div class="flex justify-center mb-6">
+    <img src="{% static 'assets/images/banners/bookMyScreen.png' %}" class="h-12">
+  </div>
+
+  <!-- Title -->
+  <h2 class="text-3xl font-bold text-white text-center mb-6">Sign In</h2>
+
+  <!-- Messages -->
+  {% if messages %}
+    {% for message in messages %}
+      <p class="text-red-500 text-sm text-center mb-3">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <!-- Form -->
+  <form method="POST" class="space-y-5">
+    {% csrf_token %}
+
+    <input type="text" name="username" placeholder="Username"
+     class="w-full bg-gray-700 text-white border border-gray-600 px-4 py-3 rounded-lg focus:ring-2 focus:ring-red-600 outline-none" required>
+
+    <input type="password" name="password" placeholder="Password"
+     class="w-full bg-gray-700 text-white border border-gray-600 px-4 py-3 rounded-lg focus:ring-2 focus:ring-red-600 outline-none" required>
+
+    <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+      Sign In
+    </button>
+  </form>
+
+  <!-- OTP Login -->
+  <div class="text-center mt-4 text-sm">
+    <a href="{% url 'otp_login' %}" class="text-red-500 font-semibold hover:underline">
+      Login with Email OTP
+    </a>
+  </div>
+
+  <!-- Signup Link -->
+  <p class="text-sm text-gray-300 text-center mt-6">
+    New to BookMyScreen?
+    <a href="{% url 'signup' %}" class="text-red-500 font-semibold hover:underline">Create Account</a>
+  </p>
+
+</div>
+
+</body>
+</html>

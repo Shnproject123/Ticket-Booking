@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="max-w-7xl mx-auto px-6 py-10">
+
+    <h1 class="text-4xl font-bold mb-8">Plays</h1>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        {% for play in plays %}
+        <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition">
+
+            <!-- IMAGE -->
+            <img src="{% static play.image %}"
+                 alt="{{ play.title }}"
+                 class="w-full h-72 object-cover">
+
+            <!-- CONTENT -->
+            <div class="p-5">
+
+                <h2 class="text-xl font-semibold mb-1">
+                    {{ play.title }}
+                </h2>
+
+                <p class="text-gray-600 text-sm mb-2">
+                    {{ play.language }} • {{ play.genre }}
+                </p>
+
+                <p class="text-gray-700 text-sm mb-3">
+                    {{ play.desc }}
+                </p>
+
+                <p class="text-gray-600 text-sm">
+                    📍 {{ play.venue }}
+                </p>
+
+                <p class="text-gray-600 text-sm mb-4">
+                    📅 {{ play.date }}
+                </p>
+
+                <a href="{% url 'play_payment' %}?play={{ play.title }}&price={{ play.price }}"
+                   class="block text-center bg-gray-900 text-white py-2 rounded-lg hover:bg-black transition">
+                    Book ₹{{ play.price }}
+                </a>
+
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

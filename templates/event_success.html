@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Booking Success | BookMyScreen{% endblock %}
+
+{% block content %}
+<section class="flex justify-center items-center min-h-screen pt-28">
+  <div class="max-w-xl mx-auto bg-gray-900 bg-opacity-90 rounded-xl shadow-2xl p-8 text-center space-y-4 animate-fadeIn">
+
+    <h1 class="text-3xl font-bold text-green-400 animate-bounce">🎉 Booking Successful!</h1>
+
+    <p class="text-lg">
+      <b>Event:</b> <span class="text-yellow-400">{{ event_name }}</span>
+    </p>
+    <p>
+      <b>Tickets:</b> <span class="text-yellow-400">{{ event_tickets }}</span>
+    </p>
+    <p>
+      <b>Amount Paid:</b> <span class="text-yellow-400">₹{{ event_price }}</span>
+    </p>
+
+    <p class="text-gray-300">
+      Your ticket has been generated.  
+      Please download and show it at venue entry.
+    </p>
+
+    <!-- Download Ticket -->
+    <a href="{% url 'download_event_ticket' %}"
+       class="bg-yellow-400 text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-500 inline-block transform hover:scale-105 transition">
+       Download Ticket 🎫
+    </a>
+
+    <!-- Back to Events -->
+    <a href="{% url 'events' %}" 
+       class="block mt-4 text-gray-300 hover:text-yellow-400 transition">🔙 Back to Events</a>
+
+  </div>
+</section>
+{% endblock %}

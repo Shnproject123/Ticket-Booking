@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= HERO / WELCOME SECTION ================= -->
+<header class="relative w-full h-[70vh]"> <!-- Reduced height -->
+    <!-- Background banner with gradient overlay -->
+    <div class="absolute inset-0">
+        <img src="{% static 'assets/images/home_banner.jpg' %}" 
+             alt="Banner" 
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-b from-red-600/70 to-red-600/30"></div>
+    </div>
+
+    <!-- Content overlay -->
+    <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white drop-shadow-xl mb-3 animate-fadeIn">
+            Welcome to BookMyScreen 🎬
+        </h1>
+        <p class="text-lg md:text-xl text-white mb-8 max-w-2xl drop-shadow-md animate-fadeIn delay-200">
+            Your ultimate platform to book tickets for movies, events, plays, and streams effortlessly.
+        </p>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-col sm:flex-row gap-4 animate-fadeIn delay-400">
+            <a href="{% url 'movies' %}" 
+               class="px-6 py-2 bg-white text-red-600 rounded-full font-semibold shadow-lg hover:scale-105 transition-transform duration-300">
+               Movies
+            </a>
+            <a href="{% url 'events' %}" 
+               class="px-6 py-2 bg-white text-red-600 rounded-full font-semibold shadow-lg hover:scale-105 transition-transform duration-300">
+               Events
+            </a>
+            <a href="{% url 'stream' %}" 
+               class="px-6 py-2 bg-white text-red-600 rounded-full font-semibold shadow-lg hover:scale-105 transition-transform duration-300">
+               Streams
+            </a>
+            <a href="{% url 'plays' %}" 
+               class="px-6 py-2 bg-white text-red-600 rounded-full font-semibold shadow-lg hover:scale-105 transition-transform duration-300">
+               Plays
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- ================= FEATURE / INTRO SECTION ================= -->
+<section class="max-w-6xl mx-auto px-4 py-20 text-center">
+    <h2 class="text-3xl md:text-4xl font-bold text-red-600 mb-6 animate-fadeIn">Why BookMyScreen?</h2>
+    <p class="text-gray-700 mb-12 text-lg md:text-xl max-w-3xl mx-auto animate-fadeIn delay-200">
+        BookMyScreen makes booking tickets effortless and fun. Browse movies, events, streams, and plays
+        with detailed information. Track your bookings, download tickets, and never miss your favorite shows.
+    </p>
+
+    <!-- Feature Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="bg-white rounded-3xl shadow-lg p-6 hover:shadow-2xl transition duration-300 animate-fadeIn delay-400">
+            <h3 class="font-bold text-red-600 text-xl mb-2">Movies</h3>
+            <p class="text-gray-600 text-sm md:text-base">Find latest movies and book your seats instantly.</p>
+        </div>
+        <div class="bg-white rounded-3xl shadow-lg p-6 hover:shadow-2xl transition duration-300 animate-fadeIn delay-500">
+            <h3 class="font-bold text-red-600 text-xl mb-2">Events</h3>
+            <p class="text-gray-600 text-sm md:text-base">Catch live events and standups near you.</p>
+        </div>
+        <div class="bg-white rounded-3xl shadow-lg p-6 hover:shadow-2xl transition duration-300 animate-fadeIn delay-600">
+            <h3 class="font-bold text-red-600 text-xl mb-2">Streams</h3>
+            <p class="text-gray-600 text-sm md:text-base">Watch online streams and never miss a show.</p>
+        </div>
+        <div class="bg-white rounded-3xl shadow-lg p-6 hover:shadow-2xl transition duration-300 animate-fadeIn delay-700">
+            <h3 class="font-bold text-red-600 text-xl mb-2">Plays</h3>
+            <p class="text-gray-600 text-sm md:text-base">Book tickets for theater plays and live performances.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ================= LIGHT CTA / FINAL SECTION ================= -->
+<section class="bg-gray-50 py-20">
+    <div class="max-w-4xl mx-auto text-center px-4">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 animate-fadeIn">
+            Ready to book your tickets?
+        </h2>
+        <p class="mb-8 text-gray-600 text-lg md:text-xl animate-fadeIn delay-200">
+            Start exploring movies, events, streams, and plays now!
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-6 animate-fadeIn delay-400">
+            <a href="{% url 'movies' %}" 
+               class="px-6 py-2 bg-red-600 text-white rounded-full font-semibold shadow-lg hover:bg-red-700 transition-colors duration-300">
+               Movies
+            </a>
+            <a href="{% url 'events' %}" 
+               class="px-6 py-2 bg-red-600 text-white rounded-full font-semibold shadow-lg hover:bg-red-700 transition-colors duration-300">
+               Events
+            </a>
+            <a href="{% url 'stream' %}" 
+               class="px-6 py-2 bg-red-600 text-white rounded-full font-semibold shadow-lg hover:bg-red-700 transition-colors duration-300">
+               Streams
+            </a>
+            <a href="{% url 'plays' %}" 
+               class="px-6 py-2 bg-red-600 text-white rounded-full font-semibold shadow-lg hover:bg-red-700 transition-colors duration-300">
+               Plays
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ================= ANIMATIONS ================= -->
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn { animation: fadeIn 1s forwards; }
+.animate-fadeIn.delay-200 { animation-delay: 0.2s; }
+.animate-fadeIn.delay-400 { animation-delay: 0.4s; }
+.animate-fadeIn.delay-500 { animation-delay: 0.5s; }
+.animate-fadeIn.delay-600 { animation-delay: 0.6s; }
+.animate-fadeIn.delay-700 { animation-delay: 0.7s; }
+</style>
+
+{% endblock %}

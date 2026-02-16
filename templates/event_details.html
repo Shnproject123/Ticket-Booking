@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ event.name }} | BookMyScreen{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto mt-8 bg-white rounded-lg shadow overflow-hidden">
+  <div class="grid md:grid-cols-2">
+
+    <!-- Event Image -->
+    <img src="{% static event.img %}" class="w-full h-80 object-cover">
+
+    <!-- Event Info -->
+    <div class="p-6 space-y-4">
+      <h1 class="text-3xl font-bold text-red-600">{{ event.name }}</h1>
+      <p class="text-gray-600">{{ event.description }}</p>
+
+      <div class="space-y-1 text-gray-700">
+        <p><b>Date:</b> {{ event.date }}</p>
+        <p><b>Time:</b> {{ event.time }}</p>
+        <p><b>Venue:</b> {{ event.venue }}</p>
+        <p><b>Language:</b> {{ event.language }}</p>
+        <p><b>Duration:</b> {{ event.duration }}</p>
+      </div>
+
+      <p class="text-lg font-semibold text-red-600">
+        ₹ {{ event.price }} per ticket
+      </p>
+
+      <!-- Ticket Counter + Book Button -->
+      <div class="flex items-center gap-4 mt-4">
+        <div class="flex items-center border rounded">
+          <button onclick="decrease()" class="px-3 py-1 text-xl">−</button>
+          <span id="ticketCount" class="px-4 py-1">1</span>
+          <button onclick="increase()" class="px-3 py-1 text-xl">+</button>
+        </div>
+
+        <a id="bookBtn"
+           href="{% url 'event_payment' event.id %}?tickets=1"
+           class="bg-red-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-red-700">
+           Book Tickets
+        </a>
+      </div>
+
+      <p class="text-sm text-gray-500">{{ event.interested }} people interested</p>
+
+    </div>
+  </div>
+</div>
+
+<script>
+let count = 1;
+
+function increase(){ count++; update(); }
+function decrease(){ if(count>1){ count--; update(); } }
+
+function update(){
+  document.getElementById("ticketCount").innerText = count;
+  document.getElementById("bookBtn").href =
+    "{% url 'event_payment' event.id %}?tickets=" + count;
+}
+</script>
+{% endblock %}

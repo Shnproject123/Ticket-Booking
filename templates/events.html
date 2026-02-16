@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Events | BookMyScreen{% endblock %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto mt-6 px-4">
+  <h2 class="text-2xl font-bold mb-4">Explore Events</h2>
+
+  <div class="flex gap-6 overflow-x-auto scrollbar-hide pb-2">
+
+    <!-- Comedy -->
+    <a href="{% url 'event_category' 'comedy' %}" class="flex-none text-center">
+      <div class="h-36 w-36 rounded-lg overflow-hidden">
+        <img src="{% static 'assets/images/events/comedy.avif' %}" class="h-full w-full object-cover">
+      </div>
+      <p class="mt-2 font-semibold">Comedy</p>
+    </a>
+
+    <!-- Theatre -->
+    <a href="{% url 'event_category' 'theatre' %}" class="flex-none text-center">
+      <div class="h-36 w-36 rounded-lg overflow-hidden">
+        <img src="{% static 'assets/images/events/theatre shows.avif' %}" class="h-full w-full object-cover">
+      </div>
+      <p class="mt-2 font-semibold">Theatre</p>
+    </a>
+
+    <!-- Kids -->
+    <a href="{% url 'event_category' 'kids' %}" class="flex-none text-center">
+      <div class="h-36 w-36 rounded-lg overflow-hidden">
+        <img src="{% static 'assets/images/events/kids.avif' %}" class="h-full w-full object-cover">
+      </div>
+      <p class="mt-2 font-semibold">Kids</p>
+    </a>
+
+    <!-- Amusement -->
+    <a href="{% url 'event_category' 'amusement' %}" class="flex-none text-center">
+      <div class="h-36 w-36 rounded-lg overflow-hidden">
+        <img src="{% static 'assets/images/events/amusement parks.avif' %}" class="h-full w-full object-cover">
+      </div>
+      <p class="mt-2 font-semibold">Amusement</p>
+    </a>
+
+  </div>
+</section>
+{% endblock %}

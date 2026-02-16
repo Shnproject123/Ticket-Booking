@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= HERO SECTION ================= -->
+<header class="bg-red-500 text-white py-24 text-center">
+    <h1 class="text-5xl font-bold mb-4">Contact Us</h1>
+    <p class="text-xl">We’d love to hear from you!</p>
+</header>
+
+<!-- ================= CONTACT SECTION ================= -->
+<main class="max-w-6xl mx-auto bg-white -mt-16 p-12 rounded-2xl shadow-lg">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+
+        <!-- ===== CONTACT INFO ===== -->
+        <section>
+            <h2 class="text-3xl font-bold text-red-500 mb-6">Reach Us</h2>
+
+            <p class="text-gray-700 text-lg mb-6">
+                Have questions, feedback, or need support?  
+                Feel free to reach out to us using the details below.
+            </p>
+
+            <div class="space-y-4 text-lg text-gray-700">
+
+                <!-- EMAIL -->
+                <p>
+                    📧 <span class="font-semibold">Email:</span>
+                    <a href="mailto:speshwayproject@gmail.com"
+                       class="text-red-500 hover:underline">
+                        speshwayproject@gmail.com
+                    </a>
+                </p>
+
+                <!-- PHONE -->
+                <p>
+                    📞 <span class="font-semibold">Phone:</span>
+                    <a href="tel:+91123456789"
+                       class="text-red-500 hover:underline">
+                        +91 6304984853
+                    </a>
+                </p>
+
+                <!-- ADDRESS -->
+                <p>
+                    📍 <span class="font-semibold">Address:</span>
+                    Hyderabad, Telangana, India
+                </p>
+            </div>
+
+            <!-- SOCIAL LINKS -->
+            <div class="mt-8">
+                <h3 class="text-xl font-semibold text-red-500 mb-3">Follow Us</h3>
+
+                <div class="flex flex-col gap-3 text-lg">
+
+                    <!-- WEBSITE -->
+                    <a href="https://www.speshway.com/"
+                       target="_blank"
+                       class="text-gray-700 hover:text-red-500 hover:underline">
+                        🌐 www.speshway.com
+                    </a>
+
+                    <!-- INSTAGRAM -->
+                    <a href="https://www.instagram.com/speshway_solutions_official/"
+                       target="_blank"
+                       class="text-gray-700 hover:text-red-500 hover:underline">
+                        📸 Instagram
+                    </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== CONTACT FORM ===== -->
+        <section>
+            <h2 class="text-3xl font-bold text-red-500 mb-6">Send a Message</h2>
+
+            <form method="post" class="flex flex-col gap-4">
+                {% csrf_token %}
+
+                <input type="text" name="name" placeholder="Your Name" required
+                       class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+
+                <input type="email" name="email" placeholder="Your Email" required
+                       class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400">
+
+                <textarea name="message" rows="5" placeholder="Your Message" required
+                          class="p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400"></textarea>
+
+                <button type="submit"
+                        class="bg-red-500 text-white py-3 rounded-lg hover:bg-red-600 transition">
+                    Send Message
+                </button>
+            </form>
+        </section>
+
+    </div>
+
+</main>
+
+{% endblock %}

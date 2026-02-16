@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="bg-gradient-to-r from-red-500 to-red-600 text-white py-28 text-center">
+    <h1 class="text-5xl font-bold mb-3">About BookMyScreen</h1>
+    <p class="text-lg opacity-90">
+        Your simple destination for movies & entertainment
+    </p>
+</section>
+
+<!-- ================= CONTENT ================= -->
+<section class="max-w-3xl mx-auto bg-white -mt-20 p-10 rounded-3xl shadow-xl text-center">
+
+    <p class="text-gray-700 text-lg leading-relaxed mb-6">
+        BookMyScreen is a modern movie booking and streaming platform built to
+        make entertainment access easy, fast, and enjoyable.
+    </p>
+
+    <p class="text-gray-600 text-base leading-relaxed mb-8">
+        From booking movie tickets to accessing streaming content, we focus on
+        simplicity, clean design, and smooth user experience.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="p-6 rounded-xl bg-gray-50">
+            <p class="text-2xl mb-2">🎬</p>
+            <p class="font-semibold">Movies</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-gray-50">
+            <p class="text-2xl mb-2">📺</p>
+            <p class="font-semibold">Streaming</p>
+        </div>
+
+        <div class="p-6 rounded-xl bg-gray-50">
+            <p class="text-2xl mb-2">💳</p>
+            <p class="font-semibold">Easy Payments</p>
+        </div>
+    </div>
+
+    <p class="text-gray-500 text-sm mt-10">
+        Designed with simplicity in mind.
+    </p>
+
+</section>
+
+{% endblock %}

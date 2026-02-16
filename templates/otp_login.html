@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<title>Email OTP Login | BookMyScreen</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-red-50 to-gray-100 flex items-center justify-center min-h-screen">
+
+<div class="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
+
+  <div class="flex justify-center mb-6">
+    <img src="{% static 'assets/images/banners/bookMyScreen.png' %}" class="h-12">
+  </div>
+
+  <h2 class="text-xl font-bold text-center mb-6">Login via Email OTP</h2>
+
+  {% if messages %}
+    {% for message in messages %}
+      <p class="text-red-600 text-sm text-center mb-3">{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  <form method="POST" class="space-y-4">
+    {% csrf_token %}
+    <input type="email" name="email" placeholder="Enter registered email"
+     class="w-full border px-4 py-3 rounded-lg focus:ring-2 focus:ring-red-500 outline-none" required>
+
+    <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+      Send OTP
+    </button>
+  </form>
+
+  <p class="text-sm text-center mt-4">
+    <a href="{% url 'login' %}" class="text-red-600 font-semibold hover:underline">
+      Back to Password Login
+    </a>
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - {{ query }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+    <!-- Header -->
+    <header class="bg-gray-900 text-white p-4 flex justify-between items-center">
+        <h1 class="text-xl font-bold">Movie & Event Search</h1>
+        <a href="{% url 'home' %}" class="text-gray-300 hover:text-white">Home</a>
+    </header>
+
+    <main class="container mx-auto p-6">
+
+        <h2 class="text-2xl font-semibold mb-4">Search Results for "{{ query }}"</h2>
+
+        <!-- Movies Section -->
+        <section class="mb-8">
+            <h3 class="text-xl font-bold mb-3">Movies</h3>
+            {% if movie_results %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {% for slug, movie in movie_results %}
+                        <div class="bg-white shadow rounded overflow-hidden">
+                            <img src="{% static movie.poster %}" alt="{{ movie.title }}" class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <h4 class="font-bold text-lg">{{ movie.title }}</h4>
+                                <p class="text-gray-600">{{ movie.genre|join:", " }} | {{ movie.rating }}</p>
+                                <a href="{% url 'movie_detail' slug=slug %}" class="mt-2 inline-block bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-700">No movies found.</p>
+            {% endif %}
+        </section>
+
+        <!-- Events Section -->
+        <section>
+            <h3 class="text-xl font-bold mb-3">Events</h3>
+            {% if event_results %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    {% for event in event_results %}
+                        <div class="bg-white shadow rounded overflow-hidden">
+                            <img src="{% static event.img %}" alt="{{ event.name }}" class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <h4 class="font-bold text-lg">{{ event.name }}</h4>
+                                <p class="text-gray-600">{{ event.category }} | {{ event.date }} | ₹{{ event.price }}</p>
+                                <a href="{% url 'event_details' event.id %}" class="mt-2 inline-block bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">View Details</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="text-gray-700">No events found.</p>
+            {% endif %}
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-900 text-gray-300 text-center py-4 mt-12">
+        &copy; 2026 Movie Booking App. All rights reserved.
+    </footer>
+
+</body>
+</html>

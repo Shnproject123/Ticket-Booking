@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ category|title }} Events | BookMyScreen{% endblock %}
+
+{% block content %}
+<section class="max-w-7xl mx-auto mt-6 px-4">
+  <h2 class="text-3xl font-bold mb-6">
+    {{ category|title }} Shows in Hyderabad
+  </h2>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 pb-10">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    {% for show in events %}
+    <a href="{% url 'event_details' show.id %}" class="card bg-white shadow rounded-lg hover:shadow-xl transition overflow-hidden">
+
+      <img src="{% static show.img %}" 
+           onerror="this.src='{% static 'assets/images/events/default.avif' %}'"
+           class="h-60 w-full object-cover rounded-md transition-transform duration-300 transform hover:scale-105"
+           alt="{{ show.name }}">
+
+      <div class="p-4">
+        <h3 class="font-semibold text-lg">{{ show.name }}</h3>
+        <p class="text-sm text-gray-500 mt-1">📅 {{ show.date }} • {{ show.time }}</p>
+        <p class="text-sm text-gray-500">📍 {{ show.venue }}</p>
+
+        <div class="flex justify-between items-center mt-3">
+          <p class="font-semibold text-red-600">₹{{ show.price }}</p>
+          <p class="text-xs text-gray-500">👥 {{ show.interested }} interested</p>
+        </div>
+      </div>
+    </a>
+    {% empty %}
+      <p class="text-gray-600">No events found in this category.</p>
+    {% endfor %}
+
+  </div>
+</section>
+{% endblock %}

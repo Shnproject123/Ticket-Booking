@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="max-w-6xl mx-auto px-4 mt-28 text-center">
+    <h1 class="text-4xl font-bold text-red-600 mb-2">
+        🍿 {{ movie.title }} 🍿
+    </h1>
+
+    <p class="text-lg text-gray-800 mt-2 font-medium">
+        Pick your seats and continue to payment
+    </p>
+
+    {% if show %}
+        <p class="text-md text-gray-600 mt-1">
+            Show Time: <b>{{ show }}</b>
+        </p>
+    {% endif %}
+</section>
+
+<form method="POST" class="text-center mt-8">
+{% csrf_token %}
+
+<!-- Hidden data passed forward -->
+<input type="hidden" name="movie_title" value="{{ movie.title }}">
+<input type="hidden" name="show_time" value="{{ show }}">
+<input type="hidden" name="theatre" value="PVR Cinemas">
+
+<!-- Optional Date Picker (keep if you want date on ticket) -->
+<div class="mb-8">
+    <label class="block text-gray-900 text-lg font-bold mb-2">
+        Select Show Date:
+    </label>
+
+    <input type="date"
+        name="show_date"
+        class="px-4 py-3 rounded-lg text-black text-lg shadow border-2 border-gray-400 bg-white"
+        min="{{ today|date:'Y-m-d' }}"
+        required>
+</div>
+
+<!-- Seat Layout -->
+<main class="max-w-4xl mx-auto bg-gray-900 mt-8 p-8 rounded-3xl shadow-xl">
+    <div class="bg-yellow-400 text-black font-bold text-xl rounded-lg py-3 mb-6">
+        🎞️ SCREEN 🎞️
+    </div>
+
+    <div class="grid grid-cols-8 gap-4 justify-center">
+
+        {% for row in "ABCDEFGH" %}
+            {% for num in "12345678" %}
+                {% with seat=row|add:num %}
+                    {% if seat in booked_seats %}
+                        <div class="seat booked bg-red-500 text-white">
+                            {{ seat }}
+                        </div>
+                    {% else %}
+                        <label class="seat bg-green-500 text-black">
+                            <input type="checkbox"
+                                   name="seats"
+                                   value="{{ seat }}"
+                                   class="hidden seat-checkbox">
+                            {{ seat }}
+                        </label>
+                    {% endif %}
+                {% endwith %}
+            {% endfor %}
+        {% endfor %}
+
+    </div>
+
+    <div class="mt-10">
+        <button type="submit"
+            class="bg-yellow-400 text-black px-8 py-3 rounded-full text-xl font-bold hover:bg-yellow-300 shadow-lg">
+            🎫 Proceed to Payment 🎫
+        </button>
+    </div>
+
+</main>
+</form>
+
+<script>
+document.querySelectorAll('.seat-checkbox').forEach(cb => {
+    cb.addEventListener('change', function() {
+        if (this.checked) {
+            this.parentElement.classList.remove('bg-green-500','text-black');
+            this.parentElement.classList.add('bg-blue-500','text-white');
+        } else {
+            this.parentElement.classList.remove('bg-blue-500','text-white');
+            this.parentElement.classList.add('bg-green-500','text-black');
+        }
+    });
+});
+</script>
+
+<style>
+.seat {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.booked {
+    cursor: not-allowed;
+}
+</style>
+
+{% endblock %}

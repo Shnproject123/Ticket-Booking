@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Payment</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+
+<h1 class="text-xl font-bold mb-4">Choose Payment Method</h1>
+
+<div class="space-y-4">
+
+<button onclick="pay('PhonePe')" class="w-full border p-3 rounded hover:bg-gray-100">
+📱 PhonePe (UPI)
+</button>
+
+<button onclick="pay('GooglePay')" class="w-full border p-3 rounded hover:bg-gray-100">
+🟢 Google Pay (UPI)
+</button>
+
+<button onclick="pay('Paytm')" class="w-full border p-3 rounded hover:bg-gray-100">
+💙 Paytm (UPI)
+</button>
+
+<button onclick="pay('Card')" class="w-full border p-3 rounded hover:bg-gray-100">
+💳 Credit / Debit Card
+</button>
+
+</div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+
+function pay(method){
+  params.set("method",method);
+  window.location.href = "processing.html?" + params.toString();
+}
+</script>
+
+</body>
+</html>

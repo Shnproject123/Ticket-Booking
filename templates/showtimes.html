@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Show | BookMyShow Clone</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<header class="bg-gray-900 text-white p-4 text-center font-bold">
+  Select Show
+</header>
+
+<main class="container mx-auto px-4 py-6">
+
+  <div id="movie-title" class="text-2xl font-bold mb-6"></div>
+
+  <!-- FORMAT -->
+  <section class="bg-white p-6 rounded-lg shadow mb-6">
+    <h2 class="text-xl font-semibold mb-4">Select Format</h2>
+    <div class="flex gap-4">
+      <button class="format-btn border px-4 py-1 rounded" data-format="2D">2D</button>
+      <button class="format-btn border px-4 py-1 rounded" data-format="3D">3D</button>
+    </div>
+  </section>
+
+  <!-- THEATRES -->
+  <section class="bg-white p-6 rounded-lg shadow">
+    <h2 class="text-xl font-semibold mb-4">Select Theatre & Show Time</h2>
+
+    <div id="theatre-list" class="space-y-6"></div>
+  </section>
+
+</main>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const movieId = params.get("id");
+let selectedFormat = "2D";
+
+const movies = {
+  akhanda2:"Akhanda 2: Thaandavam",
+  avatar:"Avatar: Fire and Ash",
+  mowgli:"Mowgli",
+  "tere-ishk-mein":"Tere Ishk Mein",
+  sholay:"Sholay",
+  "andhra-king-taluka":"Andhra King Taluka"
+};
+
+document.getElementById("movie-title").textContent = movies[movieId];
+
+const theatres = [
+  {
+    name:"PVR Cinemas",
+    shows:["10:00 AM","1:00 PM","4:00 PM","7:00 PM"]
+  },
+  {
+    name:"INOX",
+    shows:["11:00 AM","2:00 PM","6:00 PM","9:00 PM"]
+  }
+];
+
+const theatreList = document.getElementById("theatre-list");
+
+function renderTheatres(){
+  theatreList.innerHTML = theatres.map(t=>`
+    <div class="border-b pb-4">
+      <h3 class="font-semibold mb-2">${t.name}</h3>
+      <div class="flex gap-3 flex-wrap">
+        ${t.shows.map(time=>`
+          <a href="seats.html?id=${movieId}&format=${selectedFormat}&show=${time}"
+             class="border border-green-600 text-green-600 px-3 py-1 rounded hover:bg-green-600 hover:text-white">
+             ${time}
+          </a>
+        `).join("")}
+      </div>
+    </div>
+  `).join("");
+}
+
+renderTheatres();
+
+document.querySelectorAll(".format-btn").forEach(btn=>{
+  btn.onclick=()=>{
+    selectedFormat=btn.dataset.format;
+    document.querySelectorAll(".format-btn").forEach(b=>b.classList.remove("bg-green-600","text-white"));
+    btn.classList.add("bg-green-600","text-white");
+    renderTheatres();
+  };
+});
+</script>
+
+</body>
+</html>

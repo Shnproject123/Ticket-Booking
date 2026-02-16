@@ -1,0 +1,201 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BookMyScreen</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+::-webkit-scrollbar { height: 6px; }
+::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 3px; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+</style>
+
+</head>
+
+<body class="bg-gray-50 font-sans">
+
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow sticky top-0 z-50">
+
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+
+    <!-- Logo -->
+    <a href="{% url 'home' %}">
+      <img src="{% static 'assets/images/banners/bookMyScreen.png' %}" class="h-11">
+    </a>
+
+    <!-- Search -->
+    <form method="get" action="{% url 'search' %}" class="hidden md:flex w-[420px] relative">
+      <input type="text" name="q"
+        placeholder="🔍 Search Movies, Events, Plays, Stream..."
+        class="w-full px-4 py-2 border rounded-md bg-gray-100 text-sm focus:ring-2 focus:ring-red-500 outline-none"/>
+      <button type="submit"
+        class="absolute right-1 top-1/2 -translate-y-1/2 text-red-600 font-bold px-2">
+        Go
+      </button>
+    </form>
+
+    <!-- Right -->
+    <div class="flex items-center gap-4 relative">
+
+      <!-- Location -->
+      <button id="locationBtn"
+        class="text-sm font-medium text-gray-700 flex items-center gap-1">
+        <span id="selectedCity">Hyderabad</span> ⌄
+      </button>
+
+      <!-- Location Menu -->
+      <div id="locationMenu"
+        class="hidden absolute right-24 top-10 w-44 bg-white border rounded-md shadow-md text-sm z-50">
+        {% for city in cities %}
+        <p class="px-3 py-2 hover:bg-gray-100 cursor-pointer">{{ city }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Hamburger -->
+      <button id="hamburgerBtn" class="text-2xl md:text-xl">☰</button>
+
+      <!-- Hamburger Menu -->
+      <div id="hamburgerMenu"
+        class="hidden absolute right-0 top-12 w-52 bg-white border rounded-md shadow-lg text-sm z-50">
+
+        {% if user.is_authenticated %}
+        <p class="px-4 py-3 border-b font-semibold">
+          {{ user.username }}
+        </p>
+
+        <a href="{% url 'my_bookings' %}"
+          class="block px-4 py-2 hover:bg-gray-100">
+          My Bookings
+        </a>
+
+        <a href="{% url 'profile' %}"
+          class="block px-4 py-2 hover:bg-gray-100">
+          Profile
+        </a>
+
+        <a href="{% url 'logout' %}"
+          class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+          Logout
+        </a>
+
+        {% else %}
+
+        <a href="{% url 'login' %}"
+          class="block px-4 py-2 hover:bg-gray-100">
+          Login
+        </a>
+
+        <a href="{% url 'signup' %}"
+          class="block px-4 py-2 hover:bg-gray-100">
+          Sign Up
+        </a>
+
+        {% endif %}
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Desktop Nav -->
+  <nav class="hidden md:flex gap-6 px-6 py-2 text-sm font-medium border-t bg-white">
+    <!-- Home link at the start -->
+    <a href="{% url 'home' %}" class="hover:text-red-600">Home</a>
+    <a href="{% url 'movies' %}" class="hover:text-red-600">Movies</a>
+    <a href="{% url 'events' %}" class="hover:text-red-600">Events</a>
+    <a href="{% url 'stream' %}" class="hover:text-red-600">Stream</a>
+    <a href="{% url 'plays' %}" class="hover:text-red-600">Plays</a>
+    <a href="{% url 'about' %}" class="hover:text-red-600">About</a>
+    <a href="{% url 'portfolio' %}" class="hover:text-red-600">Portfolio</a>
+    <a href="{% url 'services' %}" class="hover:text-red-600">Services</a>
+    <a href="{% url 'contact' %}" class="hover:text-red-600">Contact</a>
+  </nav>
+
+</header>
+
+<!-- ================= PAGE CONTENT ================= -->
+<main>
+  {% block content %}{% endblock %}
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-gray-900 text-gray-300 mt-12">
+
+  <div class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+
+    <div>
+      <h4 class="font-semibold text-white mb-2">Movies & Events</h4>
+      <ul class="space-y-1">
+        <li><a href="{% url 'movies' %}">Movies</a></li>
+        <li><a href="{% url 'events' %}">Events</a></li>
+        <li><a href="{% url 'stream' %}">Stream</a></li>
+        <li><a href="{% url 'plays' %}">Plays</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-white mb-2">User</h4>
+      <ul class="space-y-1">
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' %}">Profile</a></li>
+        <li><a href="{% url 'my_bookings' %}">My Bookings</a></li>
+        {% else %}
+        <li><a href="{% url 'login' %}">Sign In</a></li>
+        <li><a href="{% url 'signup' %}">Sign Up</a></li>
+        {% endif %}
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-white mb-2">Contact</h4>
+      <ul class="space-y-1">
+        <li><a href="{% url 'contact' %}">Contact Us</a></li>
+        <li><a href="{% url 'services' %}">Services</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4 class="font-semibold text-white mb-2">About</h4>
+      <p class="text-gray-400 text-xs">
+        BookMyScreen is a movie & event booking web app inspired by
+        BookMyShow. Book tickets for movies, events, plays and streams
+        with responsive UI and user profiles.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="text-center text-xs py-3 border-t border-gray-700">
+    © 2026 BookMyScreen. All rights reserved.
+  </div>
+
+</footer>
+
+<!-- ================= SCRIPTS ================= -->
+<script>
+/* Hamburger Toggle */
+document.getElementById("hamburgerBtn").onclick = () => {
+  document.getElementById("hamburgerMenu").classList.toggle("hidden");
+};
+
+/* Location Toggle */
+document.getElementById("locationBtn").onclick = () => {
+  document.getElementById("locationMenu").classList.toggle("hidden");
+};
+
+/* Location Select */
+document.querySelectorAll("#locationMenu p").forEach(city => {
+  city.onclick = () => {
+    document.getElementById("selectedCity").innerText = city.innerText;
+    document.getElementById("locationMenu").classList.add("hidden");
+  };
+});
+</script>
+
+</body>
+</html>

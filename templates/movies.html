@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= PAGE HEADER ================= -->
+<section class="bg-white border-b">
+  <div class="max-w-6xl mx-auto px-4 py-6">
+    <h1 class="text-2xl font-bold text-gray-800">Movies in Hyderabad</h1>
+    <p class="text-sm text-gray-500 mt-1">Book tickets for the latest movies</p>
+  </div>
+</section>
+
+<!-- ================= FILTER BAR ================= -->
+<section class="bg-white">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex gap-3 overflow-x-auto">
+    <span data-genre="All" class="filter-btn px-4 py-1 border rounded-full text-sm cursor-pointer hover:bg-red-600 hover:text-white">All</span>
+    <span data-genre="Action" class="filter-btn px-4 py-1 border rounded-full text-sm cursor-pointer">Action</span>
+    <span data-genre="Drama" class="filter-btn px-4 py-1 border rounded-full text-sm cursor-pointer">Drama</span>
+    <span data-genre="Comedy" class="filter-btn px-4 py-1 border rounded-full text-sm cursor-pointer">Comedy</span>
+    <span data-genre="Thriller" class="filter-btn px-4 py-1 border rounded-full text-sm cursor-pointer">Thriller</span>
+  </div>
+</section>
+
+<!-- ================= MOVIES GRID ================= -->
+<section class="max-w-6xl mx-auto px-4 py-8">
+
+  {% if movies %}
+  <div id="moviesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+
+    {% for slug, movie in movies.items %}
+    <a href="{% url 'movie_detail' slug %}" class="group movie-item" data-genres="{{ movie.genre|join:',' }}">
+
+      <!-- Poster -->
+      <div class="relative overflow-hidden rounded-xl shadow hover:shadow-xl transition">
+        <img src="{% static movie.poster %}"
+             class="h-[280px] w-full object-cover group-hover:scale-105 transition">
+
+        <!-- Rating -->
+        <div class="absolute bottom-2 left-2 bg-black/80 text-white text-xs px-2 py-1 rounded">
+          ⭐ {{ movie.rating }}
+        </div>
+      </div>
+
+      <!-- Info -->
+      <div class="mt-2">
+        <h3 class="text-sm font-semibold text-gray-800 leading-tight">
+          {{ movie.title }}
+        </h3>
+        <p class="text-xs text-gray-500">
+          {{ movie.genre|join:", " }}
+        </p>
+      </div>
+
+    </a>
+    {% endfor %}
+
+  </div>
+  {% else %}
+    <p class="text-center text-gray-500">No movies available</p>
+  {% endif %}
+
+</section>
+
+<!-- ================= FILTER SCRIPT ================= -->
+<script>
+// Filter movies by genre
+const filterButtons = document.querySelectorAll('.filter-btn');
+const movies = document.querySelectorAll('.movie-item');
+
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const genre = btn.dataset.genre;
+
+    movies.forEach(movie => {
+      const movieGenres = movie.dataset.genres.split(',');
+      if (genre === 'All' || movieGenres.includes(genre)) {
+        movie.style.display = '';
+      } else {
+        movie.style.display = 'none';
+      }
+    });
+
+    // Highlight selected filter
+    filterButtons.forEach(b => b.classList.remove('bg-red-600', 'text-white'));
+    btn.classList.add('bg-red-600', 'text-white');
+  });
+});
+</script>
+
+{% endblock %}

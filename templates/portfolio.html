@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Portfolio | BookMyScreen{% endblock %}
+
+{% block content %}
+
+<!-- ================= HEADER ================= -->
+<header class="bg-red-500 text-white py-24 text-center">
+    <h1 class="text-5xl font-bold mb-4">Our Portfolio</h1>
+    <p class="text-xl">Previous Events & Streaming Movies</p>
+</header>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main class="max-w-6xl mx-auto mt-[-4rem] px-6 pb-12">
+
+    <!-- ---------------- Previous Events ---------------- -->
+    <section class="bg-white rounded-2xl shadow-lg p-8 mb-12">
+        <h2 class="text-3xl font-bold mb-6 text-center text-red-600">Previous Events</h2>
+
+        {% if LIVE_EVENTS %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {% for event in LIVE_EVENTS %}
+            <a href="{% url 'event_details' event.id %}" class="block bg-gray-50 rounded-lg shadow hover:shadow-lg overflow-hidden">
+                <img src="{% static event.img %}" 
+                     onerror="this.src='{% static 'assets/images/events/default.avif' %}'"
+                     class="h-48 w-full object-cover" 
+                     alt="{{ event.name }}">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg">{{ event.name }}</h3>
+                    <p class="text-sm text-gray-500 mt-1">📅 {{ event.date }} • {{ event.time }}</p>
+                    <p class="text-sm text-gray-500">📍 {{ event.venue }}</p>
+                    <p class="font-semibold text-red-600 mt-2">₹{{ event.price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="text-center text-gray-600">No previous events available.</p>
+        {% endif %}
+    </section>
+
+    <!-- ---------------- Streaming Movies ---------------- -->
+    <section class="bg-white rounded-2xl shadow-lg p-8">
+        <h2 class="text-3xl font-bold mb-6 text-center text-red-600">Streaming Movies</h2>
+
+        {% if STREAM_MOVIES %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {% for movie in STREAM_MOVIES %}
+            <a href="{% url 'stream_payment' %}?movie={{ movie.title }}&price={{ movie.price }}" class="block bg-gray-50 rounded-lg shadow hover:shadow-lg overflow-hidden">
+                <img src="{% static movie.image %}" 
+                     onerror="this.src='{% static 'assets/images/movies/default.avif' %}'"
+                     class="h-48 w-full object-cover" 
+                     alt="{{ movie.title }}">
+                <div class="p-4">
+                    <h3 class="font-semibold text-lg">{{ movie.title }}</h3>
+                    <p class="text-sm text-gray-500 mt-1">{{ movie.language }} | {{ movie.genre }}</p>
+                    <p class="font-semibold text-red-600 mt-2">₹{{ movie.price }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% else %}
+            <p class="text-center text-gray-600">No streaming content available yet.</p>
+        {% endif %}
+    </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="text-center py-6 text-gray-500 mt-10">
+    &copy; 2026 BookMyScreen. All rights reserved.
+</footer>
+
+{% endblock %}

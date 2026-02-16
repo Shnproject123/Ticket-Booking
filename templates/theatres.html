@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Theatre & Timing | BookMyShow Clone</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-gray-900 text-white p-4 text-center font-bold">Select Theatre & Timing</header>
+
+<main class="container mx-auto px-4 py-6">
+  <!-- Event info -->
+  <div id="event-info" class="flex items-center gap-4 mb-6"></div>
+  
+  <!-- Theatre list -->
+  <div id="theatre-list" class="space-y-4"></div>
+</main>
+
+<script>
+// Get show ID from URL
+const params = new URLSearchParams(window.location.search);
+const showId = params.get("show");
+
+// Event/Show data
+const allShows = {
+  comedy1: { name: "Laugh Riot Live", img: "../assets/images/events/telugu standup.avif" },
+  comedy2: { name: "Daily Ka Kaam Hai by Aakash Gupta", img: "../assets/images/events/daily.avif" }
+};
+
+// Theatre & timings
+const theatres = [
+  { name: "Hyderabad Comedy Club", shows: ["7:00 PM", "9:30 PM"] },
+  { name: "City Centre Stage", shows: ["6:00 PM", "8:30 PM"] },
+  { name: "Grand Theatre Hall", shows: ["5:00 PM", "7:30 PM"] }
+];
+
+// Display selected event info
+const show = allShows[showId];
+const eventContainer = document.getElementById("event-info");
+
+if(show){
+  eventContainer.innerHTML = `
+    <img src="${show.img}" class="w-24 h-32 object-cover rounded-lg">
+    <h2 class="text-2xl font-bold">${show.name}</h2>
+  `;
+}else{
+  eventContainer.innerHTML = `<p class="text-red-600 font-bold">Show not found</p>`;
+}
+
+// Render theatres
+const theatreList = document.getElementById("theatre-list");
+
+theatres.forEach(theatre => {
+  const div = document.createElement("div");
+  div.className = "bg-white p-4 rounded-lg shadow";
+  div.innerHTML = `
+    <h3 class="font-semibold mb-2">${theatre.name}</h3>
+    <div class="flex gap-2 flex-wrap">
+      ${theatre.shows.map(time => `
+        <a href="seats.html?show=${showId}&theatre=${encodeURIComponent(theatre.name)}&time=${encodeURIComponent(time)}"
+           class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">
+           ${time}
+        </a>
+      `).join('')}
+    </div>
+  `;
+  theatreList.appendChild(div);
+});
+</script>
+
+</body>
+</html>

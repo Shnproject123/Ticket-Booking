@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Booking Success{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg mt-8">
+    <h1 class="text-3xl font-bold text-green-600 mb-4">✅ Booking Confirmed!</h1>
+    
+    <p class="text-gray-700 mb-4">Thank you, {{ booking.user.username }}. Your booking was successful.</p>
+    
+    <div class="border rounded-lg p-4 bg-gray-50">
+        <h2 class="text-2xl font-semibold mb-2">{{ booking_type }}: {{ title }}</h2>
+        
+        {% if details %}
+        <p><strong>Details:</strong> {{ details }}</p>
+        {% endif %}
+        
+        {% if seats_or_tickets %}
+        <p><strong>Seats / Tickets:</strong> {{ seats_or_tickets }}</p>
+        {% endif %}
+        
+        {% if date %}
+        <p><strong>Date:</strong> {{ date|date:"d M Y" }}</p>
+        {% endif %}
+        
+        {% if time %}
+        <p><strong>Show Time:</strong> {{ time }}</p>
+        {% endif %}
+        
+        <p><strong>Total Paid:</strong> ₹{{ total }}</p>
+        <p><strong>Booking ID:</strong> #{{ booking_id }}</p>
+    </div>
+
+    <div class="mt-6 flex gap-4">
+        <a href="{% url 'download_ticket' booking_id %}" 
+           class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">📄 Download Ticket</a>
+        <a href="{% url 'home' %}" 
+           class="px-4 py-2 bg-gray-300 text-gray-800 rounded hover:bg-gray-400">🏠 Back to Home</a>
+    </div>
+
+    {% if booking_type == "Stream" %}
+    <div class="mt-6">
+        <a href="{% url 'watch_stream' %}" 
+           class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">▶️ Watch Now</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

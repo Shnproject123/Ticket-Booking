@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ticket Confirmation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-2xl mx-auto mt-10 bg-white shadow-lg rounded-xl p-8">
+
+    <h1 class="text-3xl font-bold text-green-600 mb-6">
+        ✅ Booking Confirmed
+    </h1>
+    <h2>Payment Page</h2>
+
+<p>Movie: {{ ticket.movie }}</p>
+<p>Show: {{ ticket.show }}</p>
+<p>Seats: {{ ticket.seats }}</p>
+<p>Total: ₹{{ ticket.total }}</p>
+
+<a href="{% url 'payment_success' %}">
+<button>Pay Now</button>
+</a>
+
+
+    <div class="space-y-3 text-lg">
+
+        <p><strong>Movie:</strong> {{ ticket.movie }}</p>
+
+        <p><strong>Theatre:</strong> {{ ticket.theatre }}</p>
+
+        <p><strong>Show Time:</strong> {{ ticket.show }}</p>
+
+        <p><strong>Seats:</strong>
+            {% for s in ticket.seats %}
+                <span class="bg-blue-100 px-2 py-1 rounded">{{ s }}</span>
+            {% endfor %}
+        </p>
+
+        <p><strong>Total Paid:</strong>
+            ₹{{ ticket.total }}
+        </p>
+
+    </div>
+
+    <div class="mt-8 flex gap-4">
+
+        <a href="/payment/download/{{ ticket.booking_id }}/"
+           class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+            Download PDF Ticket
+        </a>
+
+        <a href="/"
+           class="bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700">
+            Back to Home
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

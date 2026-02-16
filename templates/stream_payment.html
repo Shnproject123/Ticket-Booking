@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Stream Payment | BookMyScreen{% endblock %}
+
+{% block content %}
+<div class="flex-1 min-h-screen flex items-center justify-center bg-gray-900 p-4">
+
+  <div class="w-full max-w-3xl bg-gray-800 rounded-xl shadow-2xl p-6 space-y-6 text-white">
+
+    <h2 class="text-3xl font-bold text-center text-yellow-400 mb-4">
+      Pay for "{{ movie }}"
+    </h2>
+
+    <!-- Ticket Info -->
+    <div class="text-center text-gray-200 mb-4 space-y-1">
+      <p><b>Tickets:</b> {{ qty }}</p>
+      <p><b>Price per Ticket:</b> ₹{{ price }}</p>
+      <p class="text-xl font-semibold text-green-400 mt-2">Total: ₹{{ total }}</p>
+    </div>
+
+    <!-- UPI Payment -->
+    <div class="border border-gray-700 p-4 rounded-lg space-y-3">
+      <h3 class="font-semibold text-lg text-yellow-400">UPI Payments</h3>
+
+      <label class="flex items-center gap-4 p-3 rounded cursor-pointer hover:bg-gray-700">
+        <input type="radio" name="payment_method" class="accent-yellow-400" checked>
+        <img src="{% static 'assets/images/google.jpg' %}" class="h-10">
+        <span class="font-medium">Google Pay</span>
+      </label>
+
+      <label class="flex items-center gap-4 p-3 rounded cursor-pointer hover:bg-gray-700">
+        <input type="radio" name="payment_method" class="accent-yellow-400">
+        <img src="{% static 'assets/images/phonepe.png' %}" class="h-10">
+        <span class="font-medium">PhonePe</span>
+      </label>
+
+      <label class="flex items-center gap-4 p-3 rounded cursor-pointer hover:bg-gray-700">
+        <input type="radio" name="payment_method" class="accent-yellow-400">
+        <img src="{% static 'assets/images/paytm.png' %}" class="h-10">
+        <span class="font-medium">Paytm</span>
+      </label>
+    </div>
+
+    <!-- Card Payment -->
+    <div class="border border-gray-700 p-4 rounded-lg space-y-3">
+      <h3 class="font-semibold text-lg text-yellow-400">Credit / Debit Card</h3>
+      <input type="text" class="border border-gray-600 bg-gray-900 p-2 w-full rounded text-white" placeholder="Card Number">
+      <div class="flex gap-3">
+        <input type="text" class="border border-gray-600 bg-gray-900 p-2 w-1/2 rounded text-white" placeholder="MM/YY">
+        <input type="text" class="border border-gray-600 bg-gray-900 p-2 w-1/2 rounded text-white" placeholder="CVV">
+      </div>
+      <label class="flex items-center gap-2 mt-2">
+        <input type="radio" name="payment_method" class="accent-yellow-400">
+        <span>Pay using Card</span>
+      </label>
+    </div>
+
+    <!-- Pay Button -->
+    <form action="{% url 'stream_payment_success' %}" method="get">
+      <input type="hidden" name="movie" value="{{ movie }}">
+      <input type="hidden" name="qty" value="{{ qty }}">
+      <input type="hidden" name="total" value="{{ total }}">
+      <button type="submit"
+        class="w-full bg-yellow-400 text-black py-3 rounded-lg text-lg font-semibold hover:bg-yellow-500 transition">
+        Pay ₹{{ total }}
+      </button>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

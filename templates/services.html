@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Services | BookMyScreen{% endblock %}
+
+{% block content %}
+<!-- ================= HEADER ================= -->
+<section class="bg-red-600 text-white py-24 text-center relative">
+    <h1 class="text-5xl font-bold mb-4 animate-pulse">Our Services</h1>
+    <p class="text-xl">Discover what BookMyScreen offers to make your movie experience amazing!</p>
+    <div class="absolute inset-0 bg-black bg-opacity-20"></div>
+</section>
+
+<!-- ================= MAIN CONTENT ================= -->
+<main class="flex-1 max-w-6xl mx-auto -mt-20 px-6 md:px-0 space-y-16">
+
+    <!-- ================= FEATURE CARDS ================= -->
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="p-6 bg-red-50 rounded-2xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+            <h3 class="font-semibold text-2xl mb-2">Movie Booking</h3>
+            <p class="text-gray-700">Easily book your favorite movies, select seats, and get instant confirmation.</p>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-2xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+            <h3 class="font-semibold text-2xl mb-2">Exclusive Offers</h3>
+            <p class="text-gray-700">Get early-bird discounts, festive deals, and loyalty rewards for every booking.</p>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-2xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+            <h3 class="font-semibold text-2xl mb-2">Event Tickets</h3>
+            <p class="text-gray-700">Book tickets for concerts, plays, live shows, and community events hassle-free.</p>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-2xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+            <h3 class="font-semibold text-2xl mb-2">Streaming Services</h3>
+            <p class="text-gray-700">Pay-per-view or subscribe to stream movies and exclusive content online.</p>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-2xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+            <h3 class="font-semibold text-2xl mb-2">Gift Cards</h3>
+            <p class="text-gray-700">Send your loved ones gift cards to enjoy movies and events anytime.</p>
+        </div>
+
+        <div class="p-6 bg-red-50 rounded-2xl shadow hover:shadow-lg transition transform hover:-translate-y-1">
+            <h3 class="font-semibold text-2xl mb-2">Customer Support</h3>
+            <p class="text-gray-700">24/7 support to help with bookings, refunds, and queries efficiently.</p>
+        </div>
+    </section>
+
+    <!-- ================= ABOUT SECTION ================= -->
+    <section class="bg-white p-10 rounded-2xl shadow-lg space-y-6 text-center">
+        <h2 class="text-3xl font-bold text-gray-800">Why Choose BookMyScreen?</h2>
+        <p class="text-gray-600 text-lg">
+            We provide a seamless booking experience for movies and events. Enjoy secure payments, instant confirmations,
+            and exciting offers tailored for you. Our platform brings entertainment closer to you!
+        </p>
+        <div class="flex flex-col md:flex-row justify-center items-center gap-6 mt-6">
+            <div class="p-6 bg-red-50 rounded-xl shadow w-full md:w-1/3">
+                <h3 class="font-semibold text-xl mb-2">Fast Booking</h3>
+                <p class="text-gray-700">Get your tickets instantly without long queues.</p>
+            </div>
+            <div class="p-6 bg-red-50 rounded-xl shadow w-full md:w-1/3">
+                <h3 class="font-semibold text-xl mb-2">Safe Payments</h3>
+                <p class="text-gray-700">All transactions are encrypted and secure.</p>
+            </div>
+            <div class="p-6 bg-red-50 rounded-xl shadow w-full md:w-1/3">
+                <h3 class="font-semibold text-xl mb-2">24/7 Support</h3>
+                <p class="text-gray-700">Our team is ready to assist you anytime.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= COMING SOON ================= -->
+    <section class="text-center space-y-4">
+        <h2 class="text-3xl font-bold text-gray-800">More Services Coming Soon!</h2>
+        <p class="text-gray-600 text-lg">Stay tuned for movie merchandise, loyalty programs, and personalized recommendations.</p>
+    </section>
+
+</main>
+{% endblock %}

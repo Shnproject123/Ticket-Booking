@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<!-- ================= BANNER SLIDER ================= -->
+<section class="max-w-6xl mx-auto mt-6 px-4 relative h-[360px] overflow-hidden rounded-xl">
+  <div class="slide absolute inset-0">
+    <img src="{% static 'assets/images/banners/banner1.jpg' %}" class="w-full h-full object-cover rounded-xl shadow-lg">
+  </div>
+  <div class="slide absolute inset-0">
+    <img src="{% static 'assets/images/banners/banner2.avif' %}" class="w-full h-full object-cover rounded-xl shadow-lg">
+  </div>
+  <div class="slide absolute inset-0">
+    <img src="{% static 'assets/images/banners/banner3.avif' %}" class="w-full h-full object-cover rounded-xl shadow-lg">
+  </div>
+  <div class="slide absolute inset-0">
+    <img src="{% static 'assets/images/banners/banner4.avif' %}" class="w-full h-full object-cover rounded-xl shadow-lg">
+  </div>
+
+  <!-- Slider buttons -->
+  <button id="prevBtn" class="absolute left-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded-full z-10">❮</button>
+  <button id="nextBtn" class="absolute right-3 top-1/2 -translate-y-1/2 bg-black/50 text-white px-3 py-1 rounded-full z-10">❯</button>
+</section>
+
+<!-- ================= RECOMMENDED MOVIES ================= -->
+<section class="max-w-6xl mx-auto mt-10 px-4">
+  <div class="flex justify-between items-center mb-4">
+    <h2 class="text-xl font-bold text-gray-800">Recommended Movies</h2>
+    <a href="{% url 'movies' %}" class="text-red-600 text-sm hover:underline">See All</a>
+  </div>
+
+  <div class="flex gap-4 overflow-x-auto pb-3">
+    {% for slug, movie in movies.items %}
+    <a href="{% url 'movie_detail' slug %}" class="min-w-[180px] hover:scale-105 transform transition">
+      <img src="{% static movie.poster %}" class="h-[260px] w-full object-cover rounded-xl shadow-md">
+      <p class="mt-2 text-sm font-semibold text-gray-800">{{ movie.title }}</p>
+      <p class="text-xs text-gray-500">{{ movie.genre|join:", " }}</p>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ================= SLIDER SCRIPT ================= -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const slides = document.querySelectorAll('.slide');
+    let index = 0;
+
+    function showSlide(i){
+        slides.forEach((slide, idx) => {
+            slide.style.opacity = 0;
+            slide.style.zIndex = 0;
+        });
+        slides[i].style.opacity = 1;
+        slides[i].style.zIndex = 10;
+    }
+
+    function nextSlide(){
+        index = (index + 1) % slides.length;
+        showSlide(index);
+    }
+
+    function prevSlide(){
+        index = (index - 1 + slides.length) % slides.length;
+        showSlide(index);
+    }
+
+    // Initial display
+    showSlide(index);
+
+    // Auto-slide
+    const interval = setInterval(nextSlide, 4000);
+
+    // Button clicks
+    document.getElementById('nextBtn').addEventListener('click', () => {
+        nextSlide();
+        clearInterval(interval); // optional: reset auto-slide
+    });
+    document.getElementById('prevBtn').addEventListener('click', () => {
+        prevSlide();
+        clearInterval(interval); // optional: reset auto-slide
+    });
+});
+</script>
+
+<style>
+.slide {
+  transition: opacity 0.8s ease-in-out;
+  opacity: 0;
+}
+</style>
+
+{% endblock %}

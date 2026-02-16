@@ -1,0 +1,51 @@
+
+<!-- Location selector -->
+<div class="p-4">
+  <label for="location" class="font-semibold">Select Location:</label>
+  <select id="location" class="border p-2 ml-2">
+    <option value="hyderabad">Hyderabad</option>
+    <option value="bangalore">Bangalore</option>
+    <option value="chennai">Chennai</option>
+  </select>
+</div>
+
+<!-- Movies Section -->
+<div id="movies-container" class="grid grid-cols-3 gap-4 p-4">
+  <!-- Movie cards will appear here -->
+</div>
+
+<script>
+const movies = [
+  {name: "Movie A", language: "Hindi", rating: "U/A", format: "2D", date: "16 Dec", time: "6:30 PM", location: "hyderabad"},
+  {name: "Movie B", language: "Tamil", rating: "U", format: "2D", date: "16 Dec", time: "7:00 PM", location: "bangalore"},
+  {name: "Movie C", language: "Telugu", rating: "U/A", format: "3D", date: "16 Dec", time: "8:00 PM", location: "chennai"},
+  {name: "Movie D", language: "English", rating: "U", format: "2D", date: "16 Dec", time: "6:45 PM", location: "hyderabad"},
+];
+
+// Function to display movies
+function showMovies(location) {
+  const container = document.getElementById("movies-container");
+  container.innerHTML = ""; // clear previous movies
+  const filtered = movies.filter(movie => movie.location === location);
+  filtered.forEach(movie => {
+    container.innerHTML += `
+      <div class="border p-2 rounded shadow hover:shadow-lg">
+        <h2 class="font-bold">${movie.name}</h2>
+        <p>Language: ${movie.language}</p>
+        <p>Rating: ${movie.rating}</p>
+        <p>Format: ${movie.format}</p>
+        <p>Date: ${movie.date}</p>
+        <p>Time: ${movie.time}</p>
+      </div>
+    `;
+  });
+}
+
+// Initial display
+showMovies("hyderabad");
+
+// Change movies when location changes
+document.getElementById("location").addEventListener("change", (e) => {
+  showMovies(e.target.value);
+});
+</script>

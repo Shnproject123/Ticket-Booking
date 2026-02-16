@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto p-6 mt-28">
+
+  <h2 class="text-3xl font-bold mb-6 text-center text-yellow-400">
+    Select Payment Method
+  </h2>
+
+  <div class="bg-gray-900 bg-opacity-90 rounded-3xl shadow-xl p-8 space-y-8 text-white">
+
+    <!-- UPI -->
+    <div class="border border-gray-700 p-6 rounded-2xl">
+      <h3 class="font-semibold mb-4 text-xl text-yellow-400">UPI</h3>
+
+      <label class="flex items-center gap-4 p-3 hover:bg-gray-800 rounded cursor-pointer">
+        <input type="radio" name="pay">
+        <img src="{% static 'assets/images/google.jpg' %}" class="h-10">
+        Google Pay
+      </label>
+
+      <label class="flex items-center gap-4 p-3 hover:bg-gray-800 rounded cursor-pointer">
+        <input type="radio" name="pay">
+        <img src="{% static 'assets/images/phonepe.png' %}" class="h-10">
+        PhonePe
+      </label>
+
+      <label class="flex items-center gap-4 p-3 hover:bg-gray-800 rounded cursor-pointer">
+        <input type="radio" name="pay">
+        <img src="{% static 'assets/images/paytm.png' %}" class="h-10">
+        Paytm
+      </label>
+    </div>
+
+    <!-- Cards -->
+    <div class="border border-gray-700 p-6 rounded-2xl">
+      <h3 class="font-semibold mb-4 text-xl text-yellow-400">
+        Credit / Debit Card
+      </h3>
+
+      <input class="border border-gray-600 p-3 w-full mb-4 rounded bg-gray-800"
+             placeholder="Card Number">
+
+      <div class="flex gap-4 mb-4">
+        <input class="border border-gray-600 p-3 w-1/2 rounded bg-gray-800"
+               placeholder="MM/YY">
+        <input class="border border-gray-600 p-3 w-1/2 rounded bg-gray-800"
+               placeholder="CVV">
+      </div>
+
+      <label class="flex items-center gap-2">
+        <input type="radio" name="pay">
+        Pay using Card
+      </label>
+    </div>
+
+    <!-- PAY BUTTON -->
+    <button onclick="fakePay()"
+      class="w-full bg-red-600 py-4 rounded-full text-xl font-bold hover:bg-red-700">
+      Pay ₹{{ ticket.total }}
+    </button>
+
+  </div>
+</div>
+
+<script>
+function fakePay() {
+  const selected = document.querySelector('input[name="pay"]:checked');
+  if (!selected) {
+    alert("Please select a payment method");
+    return;
+  }
+
+  document.body.innerHTML = `
+  <div class="flex flex-col items-center justify-center h-screen bg-gray-900 text-white">
+    <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-red-600"></div>
+    <p class="mt-4 text-lg font-semibold">Processing Payment...</p>
+  </div>`;
+
+  setTimeout(() => {
+    window.location.href = "{% url 'payment_success' %}";
+  }, 2000);
+}
+</script>
+
+{% endblock %}

@@ -1,0 +1,262 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ movie.title }} | BookMyScreen</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: #ef4444; border-radius: 4px; }
+
+/* Movie banner */
+.movie-bg { width:100%; height:360px; object-fit:cover; filter:brightness(0.4); }
+.pill { border:1px solid #d1d5db; padding:4px 12px; border-radius:999px; font-size:13px; background:white; cursor:pointer; }
+.pill.selected { background:#f87171; color:white; border-color:#f87171; }
+.show-btn { border:1px solid #16a34a; padding:6px 12px; border-radius:6px; font-size:13px; color:#16a34a; cursor:pointer; }
+.show-btn.selected { background:#16a34a; color:white; }
+.show-btn:hover { background:#16a34a; color:white; }
+</style>
+</head>
+
+<body class="bg-gray-100 font-sans">
+
+<!-- ================= NAVBAR ================= -->
+<header class="bg-white shadow sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto flex items-center justify-between px-4 py-3">
+    <a href="{% url 'home' %}">
+      <img src="{% static 'assets/images/banners/bookMyScreen.png' %}" class="h-10">
+    </a>
+    <div class="hidden md:flex items-center gap-2">
+      <span class="text-sm text-gray-600">Hyderabad</span>
+      <svg class="w-4 h-4 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.24a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+      </svg>
+    </div>
+    <button class="md:hidden text-gray-600 focus:outline-none" onclick="toggleMenu()">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
+    </button>
+    <div class="hidden md:flex items-center gap-4 text-sm">
+      {% if user.is_authenticated %}
+        <span class="font-medium">{{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="text-red-600">Logout</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="font-medium">Sign In</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="hidden md:flex max-w-6xl mx-auto gap-6 px-4 py-2 text-sm font-medium border-t">
+    <a href="{% url 'movies' %}" class="text-red-600">Movies</a>
+    <a href="{% url 'events' %}" class="hover:text-red-600">Events</a>
+    <a href="{% url 'stream' %}" class="hover:text-red-600">Stream</a>
+    <a href="{% url 'plays' %}" class="hover:text-red-600">Plays</a>
+    <a href="{% url 'about' %}" class="hover:text-red-600">About</a>
+    <a href="{% url 'contact' %}" class="hover:text-red-600">Contact</a>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    <a href="{% url 'movies' %}" class="block py-2 px-4 hover:bg-gray-100">Movies</a>
+    <a href="{% url 'events' %}" class="block py-2 px-4 hover:bg-gray-100">Events</a>
+    <a href="{% url 'stream' %}" class="block py-2 px-4 hover:bg-gray-100">Stream</a>
+    <a href="{% url 'plays' %}" class="block py-2 px-4 hover:bg-gray-100">Plays</a>
+    <a href="{% url 'about' %}" class="block py-2 px-4 hover:bg-gray-100">About</a>
+    <a href="{% url 'contact' %}" class="block py-2 px-4 hover:bg-gray-100">Contact</a>
+  </div>
+</header>
+
+<script>
+function toggleMenu(){
+  const menu = document.getElementById('mobileMenu');
+  menu.classList.toggle('hidden');
+}
+</script>
+
+<!-- ================= MOVIE BANNER ================= -->
+<section class="max-w-6xl mx-auto px-4 mt-4">
+  <div class="relative rounded-xl overflow-hidden">
+    <img src="{% static movie.banner %}" class="movie-bg">
+    <img src="{% static movie.poster %}" class="w-40 absolute -bottom-10 left-6 border-4 border-white rounded-lg shadow-lg">
+  </div>
+</section>
+
+<!-- ================= MOVIE INFO ================= -->
+<section class="max-w-6xl mx-auto px-4 mt-14 flex flex-col md:flex-row justify-between items-start gap-4">
+  <div class="md:w-3/4">
+    <h1 class="text-2xl font-bold">{{ movie.title }}</h1>
+    <p class="text-gray-600 mt-1">{{ movie.about }}</p>
+    <p class="text-sm mt-2">⭐ {{ movie.rating }}</p>
+
+    <!-- LANGUAGES -->
+    <div class="flex items-center gap-3 flex-wrap mt-4">
+      <span class="text-sm font-medium">Languages:</span>
+      {% for lang in movie.languages %}
+        <span class="pill" onclick="selectLanguage(this,'{{ lang }}')">{{ lang }}</span>
+      {% endfor %}
+    </div>
+
+    <!-- FORMATS -->
+    <div class="flex items-center gap-3 flex-wrap mt-2">
+      <span class="text-sm font-medium">Formats:</span>
+      {% for f in movie.format %}
+        <span class="pill" onclick="selectFormat(this,'{{ f }}')">{{ f }}</span>
+      {% endfor %}
+      <span class="pill" onclick="selectFormat(this,'3D')">3D</span>
+    </div>
+  </div>
+
+  <!-- BOOK BUTTON -->
+  <div>
+    <button 
+  data-slug="{{ slug }}"
+  class="bg-red-600 text-white px-6 py-2 rounded font-semibold hover:bg-red-700 mt-4"
+  onclick="bookNow()">
+  Book Tickets
+</button>
+  </div>
+</section>
+
+<!-- ================= SELECT THEATRE ================= -->
+<section id="theatres" class="max-w-6xl mx-auto px-4 mt-10">
+  <h2 class="text-lg font-semibold mb-4">Select Theatre</h2>
+  <div class="bg-white rounded-lg shadow divide-y">
+    <!-- Example Theatre 1 -->
+    <div class="p-4 flex justify-between items-center">
+      <div>
+        <h3 class="font-semibold">PVR Cinemas: Forum Mall</h3>
+        <p class="text-xs text-gray-500">Dolby Atmos • 2D / 3D</p>
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <span class="show-btn" onclick="selectShow(this,'10:00 AM')">10:00 AM</span>
+        <span class="show-btn" onclick="selectShow(this,'1:15 PM')">1:15 PM</span>
+        <span class="show-btn" onclick="selectShow(this,'6:30 PM')">6:30 PM</span>
+      </div>
+    </div>
+
+    <!-- Example Theatre 2 -->
+    <div class="p-4 flex justify-between items-center">
+      <div>
+        <h3 class="font-semibold">INOX: GVK One Mall</h3>
+        <p class="text-xs text-gray-500">4K Projection • 3D</p>
+      </div>
+      <div class="flex gap-3 flex-wrap">
+        <span class="show-btn" onclick="selectShow(this,'11:30 AM')">11:30 AM</span>
+        <span class="show-btn" onclick="selectShow(this,'4:00 PM')">4:00 PM</span>
+        <span class="show-btn" onclick="selectShow(this,'9:15 PM')">9:15 PM</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CAST ================= -->
+<section class="max-w-6xl mx-auto px-4 mt-10">
+  <h2 class="text-lg font-semibold mb-3">Cast</h2>
+  <div class="flex gap-6 flex-wrap">
+    {% for c in movie.cast %}
+    <div class="w-24 text-center">
+      <img src="{% static c.image %}" class="w-20 h-20 rounded-full mx-auto object-cover">
+      <p class="text-xs font-medium mt-1">{{ c.name }}</p>
+      <p class="text-[11px] text-gray-500">{{ c.role }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ================= MORE MOVIES ================= -->
+<section class="max-w-6xl mx-auto px-4 mt-10">
+  <h2 class="text-lg font-semibold mb-4">More Movies</h2>
+  <div class="flex gap-4 overflow-x-auto pb-3">
+    {% for slug_key, m in movies.items %}
+      {% if m.title != movie.title %}
+      <a href="{% url 'movie_detail' slug_key %}" class="min-w-[120px]">
+        <img src="{% static m.poster %}" class="w-28 h-40 rounded object-cover">
+        <p class="text-xs mt-1 text-center">{{ m.title }}</p>
+      </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-gray-900 text-gray-300 mt-10">
+  <div class="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-6">
+    <div>
+      <h3 class="font-semibold text-white mb-2">BookMyScreen</h3>
+      <p class="text-xs">Book tickets for movies, plays, events, and more in Hyderabad.</p>
+    </div>
+    <div>
+      <h4 class="font-semibold text-white mb-2">Company</h4>
+      <a href="{% url 'about' %}" class="block py-1">About</a>
+      <a href="{% url 'contact' %}" class="block py-1">Contact</a>
+    </div>
+    <div>
+      <h4 class="font-semibold text-white mb-2">Support</h4>
+      <a href="#" class="block py-1">FAQs</a>
+      <a href="#" class="block py-1">Terms</a>
+    </div>
+    <div>
+      <h4 class="font-semibold text-white mb-2">Follow Us</h4>
+      <a href="#" class="block py-1">Facebook</a>
+      <a href="#" class="block py-1">Instagram</a>
+    </div>
+  </div>
+  <div class="text-center text-xs py-4 border-t border-gray-700">
+    © 2026 BookMyScreen Clone
+  </div>
+</footer>
+
+<script>
+// Language, Format, Show
+let selectedLanguage = "";
+let selectedFormat = "";
+let selectedShow = "";
+
+function selectLanguage(el, lang){
+  document.querySelectorAll('.pill').forEach(p=>{
+    if(p.parentElement.textContent.includes("Languages")){
+      p.classList.remove('selected');
+    }
+  });
+  el.classList.add('selected');
+  selectedLanguage = lang;
+}
+
+function selectFormat(el, fmt){
+  document.querySelectorAll('.pill').forEach(p=>{
+    if(p.parentElement.textContent.includes("Formats")){
+      p.classList.remove('selected');
+    }
+  });
+  el.classList.add('selected');
+  selectedFormat = fmt;
+}
+
+function selectShow(el, show){
+  document.querySelectorAll('.show-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedShow = show;
+}
+
+function bookNow(){
+
+  if(!selectedLanguage || !selectedFormat || !selectedShow){
+    alert("Select language, format, show");
+    return;
+  }
+
+  const slug = document.querySelector("button[data-slug]").dataset.slug;
+
+  window.location.href =
+      "/seats/" + slug + "/" +
+      "?lang=" + encodeURIComponent(selectedLanguage) +
+      "&fmt=" + encodeURIComponent(selectedFormat) +
+      "&show=" + encodeURIComponent(selectedShow);
+}
+
+</script>
+
+</body>
+</html>

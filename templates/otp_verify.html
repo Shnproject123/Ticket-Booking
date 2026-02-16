@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Verify OTP | BookMyScreen</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<!-- ===== Header ===== -->
+<div class="bg-gradient-to-r from-red-600 to-pink-500 py-4 shadow-md">
+  <div class="max-w-6xl mx-auto flex justify-center">
+    <img src="{% static 'assets/images/banners/bookMyScreen.png' %}" class="h-10">
+  </div>
+</div>
+
+<!-- ===== OTP Card ===== -->
+<div class="flex justify-center items-center min-h-[85vh] px-4">
+
+  <div class="bg-white rounded-xl shadow-xl w-full max-w-md p-8">
+
+      <h2 class="text-2xl font-bold text-center text-gray-800 mb-2">
+        Verify OTP
+      </h2>
+
+      <p class="text-center text-gray-500 text-sm mb-6">
+        We’ve sent an OTP to your registered email
+      </p>
+
+      {% if messages %}
+        {% for message in messages %}
+          <p class="text-red-600 text-sm text-center mb-4">{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="otp" maxlength="6"
+          placeholder="Enter 6-digit OTP"
+          class="w-full text-center text-lg tracking-widest border rounded-lg p-3 mb-5 focus:ring-2 focus:ring-red-500 outline-none" required>
+
+        <button class="w-full bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition">
+          Verify & Continue
+        </button>
+      </form>
+
+      <p class="text-center text-xs text-gray-400 mt-6">
+        Didn’t receive OTP? Check spam folder
+      </p>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Show Details | BookMyShow Clone</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<header class="bg-white shadow sticky top-0 z-50 px-4 py-3 flex items-center">
+  <a href="index.html"><img src="../assets/images/banners/bookMyScreen.png" class="h-8"></a>
+</header>
+
+<section class="max-w-4xl mx-auto mt-6 px-4 bg-white shadow rounded-lg">
+  <div id="showDetails"></div>
+</section>
+
+<script>
+const allShows = {
+  comedy1: {
+    name: "Laugh Riot Live",
+    img: "../assets/images/events/telugu standup.avif",
+    desc: "Stand-up night with top comedians! Featuring Aakash Gupta.",
+    date: "Sat, Jan 24 • 7:00 PM",
+    venue: "Hyderabad Comedy Club",
+    price: "₹499 onwards"
+  },
+  comedy2: {
+    name: "Daily Ka Kaam Hai by Aakash Gupta",
+    img: "../assets/images/events/daily.avif",
+    desc: "A hilarious stand-up show by Aakash Gupta. Don’t miss it!",
+    date: "Sun, Jan 25 • 6:00 PM",
+    venue: "City Centre Stage",
+    price: "₹349 onwards"
+  }
+};
+
+// Get selected show ID from localStorage
+const selectedShowId = localStorage.getItem("selectedShow");
+const show = allShows[selectedShowId];
+
+const container = document.getElementById("showDetails");
+
+if(show){
+  container.innerHTML = `
+    <img src="${show.img}" class="w-full h-80 object-cover rounded-t-lg">
+    <div class="p-4">
+      <h1 class="text-2xl font-bold mb-2">${show.name}</h1>
+      <p class="text-gray-500 mb-2">${show.date} • ${show.venue}</p>
+      <p class="text-gray-700 mb-4">${show.price}</p>
+      <h2 class="text-lg font-semibold mb-1">About the Show</h2>
+      <p class="text-gray-600 mb-4">${show.desc}</p>
+      <button onclick="bookNow()" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700">Book Now</button>
+    </div>
+  `;
+}else{
+  container.innerHTML = "<p class='p-4 text-red-600 font-bold'>Show details not found.</p>";
+}
+
+// Pass show ID via URL to theatres page
+function bookNow(){
+  window.location.href = `theatres.html?show=${selectedShowId}`;
+}
+</script>
+
+</body>
+</html>

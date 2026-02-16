@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comedy Shows | BookMyShow Clone</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .event-img { height: 260px; width: 100%; object-fit: cover; border-radius: 0.5rem; }
+  header { position: sticky; top: 0; z-index: 50; background:white; }
+</style>
+</head>
+<body class="bg-gray-100">
+
+<!-- ================= NAVBAR ================= -->
+<header class="shadow px-6 py-3 flex items-center justify-between">
+  <!-- Logo -->
+  <a href="{% url 'home' %}">
+    <img src="{% static 'assets/images/banners/bookMyScreen.png' %}" class="h-10">
+  </a>
+
+  <!-- Search -->
+  <input id="searchInput" type="text" placeholder="Search Movies, Events..." class="w-96 px-4 py-2 border rounded bg-gray-100 outline-none focus:ring-2 focus:ring-red-500"/>
+
+  <!-- Location + Profile -->
+  <div class="flex items-center gap-4 text-sm">
+    <span id="locationText" class="font-medium">Detecting location...</span>
+
+    <!-- Show Sign-in or Profile -->
+    {% if user.is_authenticated %}
+      <div class="flex items-center gap-2">
+        <img src="{% static 'assets/images/profile.png' %}" class="h-8 w-8 rounded-full border border-gray-300">
+        <span class="font-medium">{{ user.username }}</span>
+        <a href="{% url 'logout' %}" class="text-red-600 font-semibold hover:underline">Logout</a>
+      </div>
+    {% else %}
+      <a href="{% url 'login' %}" class="bg-red-600 text-white px-4 py-1 rounded hover:bg-red-700 transition">Sign In</a>
+    {% endif %}
+  </div>
+</header>
+
+<!-- ================= PAGE TITLE ================= -->
+<section class="max-w-7xl mx-auto mt-6 px-6">
+  <h2 class="text-3xl font-bold mb-6 text-gray-800">Comedy Shows</h2>
+
+  <!-- ================= SHOWS GRID ================= -->
+  <div id="showsContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+</section>
+
+<script>
+  // Shows data for Comedy category
+  const comedyShows = [
+    {id:"comedy1", name:"Laugh Riot Live", img:"{% static 'assets/images/events/telugu standup.avif' %}", desc:"Stand-up night with top comedians!", date:"Sat, Jan 24 • 7:00 PM", venue:"Hyderabad Comedy Club", price:"₹499 onwards"},
+    {id:"comedy2", name:"Daily Ka Kaam Hai by Aakash Gupta", img:"{% static 'assets/images/events/daily.avif' %}", desc:"Hilarious stand-up show by Aakash Gupta.", date:"Sun, Jan 25 • 6:00 PM", venue:"City Centre Stage", price:"₹349 onwards"}
+  ];
+
+  const container = document.getElementById("showsContainer");
+
+  comedyShows.forEach(show=>{
+    const div = document.createElement("div");
+    div.className = "bg-white shadow rounded-lg cursor-pointer hover:shadow-2xl transition duration-300";
+    div.innerHTML = `
+      <img src="${show.img}" class="event-img">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold text-gray-800">${show.name}</h3>
+        <p class="text-sm text-gray-500 mt-1">${show.date} • ${show.venue}</p>
+        <p class="text-sm text-gray-600 mt-2">${show.price}</p>
+      </div>
+    `;
+    div.onclick = ()=> {
+      localStorage.setItem("selectedShow", show.id);
+      window.location.href = "{% url 'event_category' 'comedy' %}";
+    };
+    container.appendChild(div);
+  });
+
+  // Search functionality
+  const movies = { akhanda: "{% url 'movie_detail' 'akhanda2' %}", avatar: "{% url 'movie_detail' 'avatar' %}" };
+  const events = { comedy1: "{% url 'event_category' 'comedy' %}", comedy2: "{% url 'event_category' 'comedy' %}" };
+
+  document.getElementById("searchInput").addEventListener("keydown", e=>{
+    if(e.key==="Enter"){
+      const q = e.target.value.toLowerCase();
+      if(movies[q]) { window.location.href = movies[q]; return; }
+      if(events[q]) { window.location.href = events[q]; return; }
+      alert("Not found");
+    }
+  });
+
+  // Location detection
+  const locationText = document.getElementById("locationText");
+  if(navigator.geolocation){
+    navigator.geolocation.getCurrentPosition(
+      pos => locationText.innerText = "Hyderabad",
+      err => locationText.innerText = "Hyderabad"
+    );
+  } else locationText.innerText = "Hyderabad";
+</script>
+</body>
+</html>
